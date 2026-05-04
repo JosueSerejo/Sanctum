@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sanctum - Cadastro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <header class="login-header">
+            <i class="fas fa-user-plus"></i>
+            <h1>Sanctum</h1>
+            <p>Criar Nova Conta</p>
+        </header>
+
+        <main class="container">
+            <form action="/cadastrar" method="POST" class="login-form">
+                <div class="input-group">
+                    <label for="usuario">Novo Usuário</label>
+                    <input type="text" id="usuario" name="usuario" placeholder="Ex: joaosilva" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-login">CADASTRAR USUÁRIO</button>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="{{ url_for('index') }}" style="color: var(--primary); text-decoration: none; font-size: 0.8rem;">Voltar para o Login</a>
+                </div>
+            </form>
+        </main>
+
+        <footer class="login-footer">
+            <p>&copy; 2026 - Sanctum</p>
+        </footer>
+    </div>
+
+</body>
+</html>
