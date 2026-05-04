@@ -19,7 +19,7 @@
         </header>
 
         <main class="container">
-            <!-- Procure a tag <form> e altere para: -->
+            <!-- Rota configurada no app.py para validar o acesso -->
             <form action="/login" method="POST" class="login-form">
 
                 <div class="input-group">
@@ -33,12 +33,17 @@
                 </div>
 
                 <button type="submit" class="btn-login">ACESSAR SISTEMA</button>
+
+                <!-- Div de alternância estilizada via style.css -->
+                <div class="auth-switch">
+                    <p>Não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
+                </div>
             </form>
         </main>
 
         <footer class="login-footer">
             <p>&copy; 2026 - Sanctum</p>
-            <p>Desenvolvido por <a href="" target="_blank">SerejoDev</a> </p>
+            <p>Desenvolvido por <a href="#" target="_blank">SerejoDev</a></p>
         </footer>
     </div>
 
