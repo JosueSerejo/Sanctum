@@ -51,7 +51,8 @@ def login():
     if user and user.senha == senha_inserida:
         return f"Bem-vindo, {user.nome}! Acesso ao Sanctum autorizado."
     else:
-        return "Usuário ou senha inválidos.", 401
+        flash("Usuário ou senha inválidos.", "error")
+        return redirect(url_for('index'))
 
 @app.route('/cadastro')
 def cadastro():
@@ -67,26 +68,31 @@ def cadastrar():
 
     # Validação 1: Campos vazios
     if not all([nome, email, usuario_novo, senha_nova]):
-        return "Preencha todos os campos!", 400
+        flash("Preencha todos os campos!", "error")
+        return redirect(url_for('cadastro'))
 
     # Validação 2: Senhas coincidem
     if senha_nova != confirmar_senha:
-        return "As senhas não coincidem!", 400
+        flash("As senhas não coincidem!", "error")
+        return redirect(url_for('cadastro'))
 
     # Validação 3: Usuário ou E-mail já existem
     existe = Usuario.query.filter((Usuario.username == usuario_novo) | (Usuario.email == email)).first()
     if existe:
-        return "Usuário ou E-mail já cadastrados no sistema.", 400
+        flash("Usuário ou E-mail já cadastrados no sistema!", "error")
+        return redirect(url_for('cadastro'))
 
     novo_user = Usuario(nome=nome, email=email, username=usuario_novo, senha=senha_nova)
     
     try:
         db.session.add(novo_user)
         db.session.commit()
+        flash("Usuário cadastrado com sucesso!", "success")
         return redirect(url_for('index'))
     except Exception as e:
         db.session.rollback()
-        return f"Erro ao salvar: {e}", 500
+        flash(f"Erro ao salvar: {e}", "error")
+        return redirect(url_for('cadastro'))
 
 if __name__ == '__main__':
     app.run(debug=True)
