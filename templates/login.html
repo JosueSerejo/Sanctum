@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sanctum - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
     <div class="login-wrapper">
@@ -17,15 +19,17 @@
         </header>
 
         <main class="container">
-            <form action="#" class="login-form">
+            <!-- Procure a tag <form> e altere para: -->
+            <form action="/login" method="POST" class="login-form">
+
                 <div class="input-group">
                     <label for="usuario">Usuário</label>
-                    <input type="text" id="usuario" placeholder="Ex: mariasousa" required>
+                    <input type="text" id="usuario" name="usuario" placeholder="Ex: mariasousa" required>
                 </div>
 
                 <div class="input-group">
                     <label for="senha">Senha</label>
-                    <input type="password" id="senha" placeholder="••••••••" required>
+                    <input type="password" id="senha" name="senha" placeholder="••••••••" required>
                 </div>
 
                 <button type="submit" class="btn-login">ACESSAR SISTEMA</button>
@@ -39,4 +43,5 @@
     </div>
 
 </body>
+
 </html>
