@@ -156,9 +156,33 @@ input:focus {
     text-align: center;
     font-weight: bold;
     border: 1px solid transparent;
+    
+    /* Animação de Entrada */
+    animation: slideIn 0.5s ease-out forwards;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 1;
 }
 
-.alert-danger {
+/* Classe para o desaparecimento suave via JS */
+.alert.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cores da Paleta Sanctum */
+.alert-error, .alert-danger {
     background-color: #441111;
     color: #ff8888;
     border-color: #882222;
