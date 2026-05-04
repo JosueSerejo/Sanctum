@@ -1,7 +1,7 @@
-# MusiCat
+# Sanctum
 
 
-O **MusiCat** é um sistema web focado na organização e gestão de repertórios musicais para missas e celebrações litúrgicas. Desenvolvido com foco no conceito *Mobile First*, o objetivo é permitir que músicos tenham acesso rápido as playlists de celebrações, letras, momentos da missa e áudios de forma rápida e acessível.
+O **Sanctum** é um sistema web focado na organização e gestão de repertórios musicais para missas e celebrações litúrgicas. Desenvolvido com foco no conceito *Mobile First*, o objetivo é permitir que músicos tenham acesso rápido as playlists de celebrações, letras, momentos da missa e áudios de forma rápida e acessível.
 
 ## 🚀 Funcionalidades (Em Desenvolvimento)
 
