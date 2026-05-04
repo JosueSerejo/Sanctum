@@ -146,3 +146,32 @@ input:focus {
 .auth-switch a:hover {
     opacity: 0.8;
 }
+
+/* Estilo das Mensagens de Alerta */
+.alert {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid transparent;
+}
+
+.alert-danger {
+    background-color: #441111;
+    color: #ff8888;
+    border-color: #882222;
+}
+
+.alert-warning {
+    background-color: #443311;
+    color: #ffcc66;
+    border-color: #886622;
+}
+
+.alert-success {
+    background-color: #113311;
+    color: #66ff66;
+    border-color: #226622;
+}
