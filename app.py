@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 
-# 1. Carrega as variáveis de ambiente (.env)
+# 1. Carrega as variáveis de ambiente
 load_dotenv()
 
 app = Flask(__name__)
@@ -22,14 +22,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # 3. Inicialização do Banco de Dados
 db = SQLAlchemy(app)
 
-# 4. Definição do Modelo de Usuário
+# 4. Definição do Modelo de Usuário (Atualizado)
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
     senha = db.Column(db.String(100), nullable=False)
 
-# Garantir que as tabelas existam no Neon ao iniciar
+# Garantir que as tabelas existam
 with app.app_context():
     db.create_all()
 
@@ -47,9 +49,9 @@ def login():
     user = Usuario.query.filter_by(username=usuario_inserido).first()
 
     if user and user.senha == senha_inserida:
-        return f"Bem-vindo, {user.username}! Acesso ao Sanctum autorizado."
+        return f"Bem-vindo, {user.nome}! Acesso ao Sanctum autorizado."
     else:
-        return "Usuário ou senha inválidos. Tente novamente.", 401
+        return "Usuário ou senha inválidos.", 401
 
 @app.route('/cadastro')
 def cadastro():
@@ -57,17 +59,26 @@ def cadastro():
 
 @app.route('/cadastrar', methods=['POST'])
 def cadastrar():
+    nome = request.form.get('nome')
+    email = request.form.get('email')
     usuario_novo = request.form.get('usuario')
     senha_nova = request.form.get('senha')
+    confirmar_senha = request.form.get('confirmar_senha')
 
-    if not usuario_novo or not senha_nova:
+    # Validação 1: Campos vazios
+    if not all([nome, email, usuario_novo, senha_nova]):
         return "Preencha todos os campos!", 400
 
-    usuario_existe = Usuario.query.filter_by(username=usuario_novo).first()
-    if usuario_existe:
-        return "Este nome de usuário já está em uso.", 400
+    # Validação 2: Senhas coincidem
+    if senha_nova != confirmar_senha:
+        return "As senhas não coincidem!", 400
 
-    novo_user = Usuario(username=usuario_novo, senha=senha_nova)
+    # Validação 3: Usuário ou E-mail já existem
+    existe = Usuario.query.filter((Usuario.username == usuario_novo) | (Usuario.email == email)).first()
+    if existe:
+        return "Usuário ou E-mail já cadastrados no sistema.", 400
+
+    novo_user = Usuario(nome=nome, email=email, username=usuario_novo, senha=senha_nova)
     
     try:
         db.session.add(novo_user)
@@ -75,8 +86,7 @@ def cadastrar():
         return redirect(url_for('index'))
     except Exception as e:
         db.session.rollback()
-        return f"Erro ao salvar no banco de dados: {e}", 500
+        return f"Erro ao salvar: {e}", 500
 
-# 6. Inicialização (para rodar localmente)
 if __name__ == '__main__':
     app.run(debug=True)
