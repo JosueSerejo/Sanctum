@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
     <div class="login-wrapper">
@@ -20,7 +22,7 @@
             <form action="/cadastrar" method="POST" class="login-form">
                 <div class="input-group">
                     <label for="usuario">Novo Usuário</label>
-                    <input type="text" id="usuario" name="usuario" placeholder="Ex: joaosilva" required>
+                    <input type="text" id="usuario" name="usuario" placeholder="Ex: joaoserejo" required>
                 </div>
 
                 <div class="input-group">
@@ -29,9 +31,9 @@
                 </div>
 
                 <button type="submit" class="btn-login">CADASTRAR USUÁRIO</button>
-                
-                <div style="text-align: center; margin-top: 20px;">
-                    <a href="{{ url_for('index') }}" style="color: var(--primary); text-decoration: none; font-size: 0.8rem;">Voltar para o Login</a>
+
+                <div class="auth-switch">
+                    <p>Já tem uma conta? <a href="{{ url_for('index') }}">Faça Login</a></p>
                 </div>
             </form>
         </main>
@@ -42,4 +44,5 @@
     </div>
 
 </body>
+
 </html>
