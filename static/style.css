@@ -125,3 +125,24 @@ input:focus {
     font-size: 0.7rem;
     text-align: center;
 }
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-switch p {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.auth-switch a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+.auth-switch a:hover {
+    opacity: 0.8;
+}
