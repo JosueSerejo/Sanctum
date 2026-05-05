@@ -1,13 +1,26 @@
 @charset "UTF-8";
 
+/* ==========================================================================
+   CONFIGURAÇÕES E VARIÁVEIS
+   ========================================================================== */
 :root {
     --primary: #c5a059;
+    --primary-hover: #d4af37;
     --bg: #0a0a0a;
     --card-bg: #1a1a1a;
-    --text: #ffffff;
     --input-bg: #000000;
+    --text: #ffffff;
+    --text-muted: #666;
+    --text-dim: #444;
+    --error: #ff8888;
+    --success: #66ff66;
+    --warning: #ffcc66;
+    --transition: 0.3s ease;
 }
 
+/* ==========================================================================
+   RESET E ESTILOS GLOBAIS
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -23,7 +36,21 @@ body {
     min-height: 100vh;
 }
 
-/* Container Principal */
+a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--primary-hover);
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   LAYOUT CONTAINERS
+   ========================================================================== */
 .login-wrapper {
     display: flex;
     flex-direction: column;
@@ -33,53 +60,16 @@ body {
     flex-grow: 1;
 }
 
-/* Cabeçalho do Login */
-.login-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.login-header i {
-    font-size: 3rem;
-    color: var(--primary);
-    margin-bottom: 10px;
-}
-
-.login-header h1 {
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.logo-cross {
-    display: inline-block;
-    font-size: 1.2rem !important;
-    color: #d4af37;
-    margin-left: -8px;
-    transform: translateY(-5px);
-    filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.5));
-}
-
-.login-header p {
-    color: #666;
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-
-/* Formulário */
 .container {
     width: 100%;
     max-width: 400px;
 }
 
-.login-form {
-    background: var(--card-bg);
-    padding: 30px 20px;
-    border-radius: 12px;
-    border: 1px solid #222;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
+/* ==========================================================================
+   COMPONENTES DE UI (INPUTS, BOTÕES, ALERTAS)
+   ========================================================================== */
 
+/* Inputs */
 .input-group {
     margin-bottom: 20px;
 }
@@ -95,13 +85,13 @@ body {
 
 input {
     width: 100%;
-    padding: 15px; /* Padding maior para facilitar o toque no mobile */
+    padding: 15px;
     background: var(--input-bg);
     border: 1px solid #333;
     border-radius: 8px;
     color: #fff;
     font-size: 1rem;
-    transition: border-color 0.3s;
+    transition: border-color var(--transition);
 }
 
 input:focus {
@@ -109,7 +99,7 @@ input:focus {
     border-color: var(--primary);
 }
 
-/* Botão */
+/* Botões */
 .btn-login {
     width: 100%;
     padding: 16px;
@@ -125,26 +115,87 @@ input:focus {
 }
 
 .btn-login:active {
-    transform: scale(0.98); /* Feedback visual ao tocar */
+    transform: scale(0.98);
 }
 
-.login-footer {
-    margin-top: 40px;
-    color: #444;
-    font-size: 0.7rem;
-    text-align: center;
-}
-
-footer a {
+.btn-secondary {
+    background: transparent;
     color: var(--primary);
-    text-decoration: none;
-    font-weight: bold;
-    transition: opacity 0.3s;
+    border: 1px solid var(--primary);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
 }
 
-footer p {
-    margin-top: 10px;
-    color: #444;
+.btn-secondary:hover {
+    background: rgba(197, 160, 89, 0.1);
+}
+
+/* Mensagens de Alerta */
+.alert {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid transparent;
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.alert.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+.alert-error, .alert-danger { background: #441111; color: var(--error); border-color: #882222; }
+.alert-warning { background: #443311; color: var(--warning); border-color: #886622; }
+.alert-success { background: #113311; color: var(--success); border-color: #226622; }
+
+/* ==========================================================================
+   SEÇÃO: AUTH (LOGIN/CADASTRO)
+   ========================================================================== */
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-header i:first-child {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.login-header h1 {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.logo-cross {
+    display: inline-block;
+    font-size: 1.2rem !important;
+    color: var(--primary-hover);
+    margin-left: -8px;
+    transform: translateY(-5px);
+    filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.5));
+}
+
+.login-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.login-form {
+    background: var(--card-bg);
+    padding: 30px 20px;
+    border-radius: 12px;
+    border: 1px solid #222;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .auth-switch {
@@ -154,69 +205,62 @@ footer p {
 
 .auth-switch p {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--text-muted);
 }
 
-.auth-switch a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: bold;
-    transition: opacity 0.3s;
-}
-
-.auth-switch a:hover {
-    opacity: 0.8;
-}
-
-/* Estilo das Mensagens de Alerta */
-.alert {
-    padding: 12px;
+/* ==========================================================================
+   SEÇÃO: DASHBOARD (SPA)
+   ========================================================================== */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+    color: var(--primary-hover);
+}
+
+.playlist-container {
+    list-style: none;
+    padding: 0;
+}
+
+.playlist-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    margin-bottom: 10px;
     border-radius: 8px;
-    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.playlist-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   RODAPÉ (FOOTER)
+   ========================================================================== */
+.login-footer {
+    margin-top: 40px;
+    color: var(--text-dim);
+    font-size: 0.7rem;
     text-align: center;
-    font-weight: bold;
-    border: 1px solid transparent;
-    
-    /* Animação de Entrada */
-    animation: slideIn 0.5s ease-out forwards;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    opacity: 1;
+    padding-bottom: 20px;
 }
 
-/* Classe para o desaparecimento suave via JS */
-.alert.fade-out {
-    opacity: 0;
-    transform: translateY(-20px);
-    pointer-events: none;
+.login-footer p {
+    margin-top: 10px;
 }
 
+/* ==========================================================================
+   ANIMAÇÕES
+   ========================================================================== */
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Cores da Paleta Sanctum */
-.alert-error, .alert-danger {
-    background-color: #441111;
-    color: #ff8888;
-    border-color: #882222;
-}
-
-.alert-warning {
-    background-color: #443311;
-    color: #ffcc66;
-    border-color: #886622;
-}
-
-.alert-success {
-    background-color: #113311;
-    color: #66ff66;
-    border-color: #226622;
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
