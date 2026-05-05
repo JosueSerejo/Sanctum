@@ -19,35 +19,41 @@
         </header>
 
         <main class="container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="alert alert-{{ category }}">
-                    {{ message }}
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
+            <!-- Bloco de Alertas (Gerenciado pelo JS agora) -->
+            <div id="flash-container"></div>
 
-            <form action="/login" method="POST" class="login-form">
+            <section id="auth-section" class="login-form">
+                <header class="login-header">
+                    <i class="fas fa-church"></i>
+                    <h1>Sanctum <i class="fas fa-cross logo-cross"></i></h1>
+                    <p>Gestão de Repertório Litúrgico</p>
+                </header>
 
-                <div class="input-group">
-                    <label for="usuario">Usuário</label>
-                    <!-- Adicionado o value para persistência -->
-                    <input type="text" id="usuario" name="usuario" value="{{ usuario if usuario else '' }}" placeholder="Ex: mariasilva" required>
-                </div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="usuario">Usuário</label>
+                        <input type="text" id="usuario" name="usuario" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" required>
+                    </div>
+                    <button type="submit" class="btn-login">ACESSAR SISTEMA</button>
+                </form>
+            </section>
 
-                <div class="input-group">
-                    <label for="senha">Senha</label>
-                    <input type="password" id="senha" name="senha" placeholder="••••••••" required>
-                </div>
+            <section id="dashboard-section" style="display: none;">
+                <header class="dashboard-header">
+                    <h2>Suas Playlists</h2>
+                    <button id="btn-nova-playlist" class="btn-secondary">
+                        <i class="fas fa-plus"></i> Nova Playlist
+                    </button>
+                </header>
 
-                <button type="submit" class="btn-login">ACESSAR SISTEMA</button>
-
-                <div class="auth-switch">
-                    <p>Não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
-                </div>
-            </form>
+                <ul id="playlist-list" class="playlist-container">
+                    <li class="playlist-item">Carregando playlists...</li>
+                </ul>
+            </section>
         </main>
 
         <footer class="login-footer">
@@ -58,4 +64,5 @@
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
+
 </html>
