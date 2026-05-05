@@ -135,6 +135,18 @@ input:focus {
     text-align: center;
 }
 
+footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+footer p {
+    margin-top: 10px;
+    color: #444;
+}
+
 .auth-switch {
     text-align: center;
     margin-top: 20px;
