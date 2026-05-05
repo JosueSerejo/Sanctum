@@ -8,6 +8,7 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave-secreta-padrao')
 
+# Configuração do Banco de Dados (Neon/PostgreSQL)
 uri = os.getenv("DATABASE_URL")
 if uri and uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
@@ -17,6 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# Modelo de Usuário
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +30,8 @@ class Usuario(db.Model):
 with app.app_context():
     db.create_all()
 
+# --- ROTAS ---
+
 @app.route('/')
 def index():
     return render_template('login.html')
@@ -36,14 +40,14 @@ def index():
 def login():
     usuario_inserido = request.form.get('usuario')
     senha_inserida = request.form.get('senha')
+
     user = Usuario.query.filter_by(username=usuario_inserido).first()
 
     if user and user.senha == senha_inserida:
-        return f"Bem-vindo, {user.nome}! Acesso ao Sanctum autorizado."
+        return f"Bem-vindo, {user.nome}! Acesso autorizado."
     else:
-        # Mudança estratégica: use flash e redirecione
-        flash("Usuário ou senha inválidos.", "error")
-        return redirect(url_for('index'))
+        flash("Usuário ou senha inválidos.", "danger")
+        return render_template('login.html', usuario=usuario_inserido)
 
 @app.route('/cadastro')
 def cadastro():
@@ -51,36 +55,41 @@ def cadastro():
 
 @app.route('/cadastrar', methods=['POST'])
 def cadastrar():
+    # Captura todos os dados do formulário
     nome = request.form.get('nome')
     email = request.form.get('email')
     usuario_novo = request.form.get('usuario')
     senha_nova = request.form.get('senha')
     confirmar_senha = request.form.get('confirmar_senha')
 
+    # Validação 1: Campos vazios
     if not all([nome, email, usuario_novo, senha_nova]):
-        flash("Preencha todos os campos!", "error")
-        return redirect(url_for('cadastro'))
+        flash("Preencha todos os campos!", "warning")
+        return render_template('cadastro.html', nome=nome, email=email, usuario=usuario_novo)
 
+    # Validação 2: Senhas coincidem
     if senha_nova != confirmar_senha:
-        flash("As senhas não coincidem!", "error")
-        return redirect(url_for('cadastro'))
+        flash("As senhas não coincidem!", "danger")
+        return render_template('cadastro.html', nome=nome, email=email, usuario=usuario_novo)
 
+    # Validação 3: Usuário ou E-mail já existem
     existe = Usuario.query.filter((Usuario.username == usuario_novo) | (Usuario.email == email)).first()
     if existe:
-        flash("Usuário ou E-mail já cadastrados no sistema!", "warning")
-        return redirect(url_for('cadastro'))
+        flash("Usuário ou E-mail já cadastrados.", "warning")
+        return render_template('cadastro.html', nome=nome, email=email, usuario=usuario_novo)
 
+    # Se passar em tudo, salva no banco
     novo_user = Usuario(nome=nome, email=email, username=usuario_novo, senha=senha_nova)
     
     try:
         db.session.add(novo_user)
         db.session.commit()
-        flash("Usuário cadastrado com sucesso!", "success")
+        flash("Conta criada com sucesso! Faça seu login.", "success")
         return redirect(url_for('index'))
     except Exception as e:
         db.session.rollback()
-        flash(f"Erro ao salvar: {e}", "error")
-        return redirect(url_for('cadastro'))
+        flash(f"Erro ao salvar: {e}", "danger")
+        return render_template('cadastro.html', nome=nome, email=email, usuario=usuario_novo)
 
 if __name__ == '__main__':
     app.run(debug=True)
