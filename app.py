@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 
@@ -36,6 +36,8 @@ with app.app_context():
 def index():
     return render_template('login.html')
 
+from flask import jsonify
+
 @app.route('/login', methods=['POST'])
 def login():
     usuario_inserido = request.form.get('usuario')
@@ -44,10 +46,9 @@ def login():
     user = Usuario.query.filter_by(username=usuario_inserido).first()
 
     if user and user.senha == senha_inserida:
-        return f"Bem-vindo, {user.nome}! Acesso autorizado."
+        return jsonify({"status": "success", "message": f"Bem-vindo, {user.nome}"}), 200
     else:
-        flash("Usuário ou senha inválidos.", "danger")
-        return render_template('login.html', usuario=usuario_inserido)
+        return jsonify({"status": "error", "message": "Usuário ou senha inválidos."}), 401
 
 @app.route('/cadastro')
 def cadastro():
