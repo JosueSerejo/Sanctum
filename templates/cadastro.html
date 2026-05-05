@@ -20,30 +20,30 @@
 
         <main class="container">
             {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
             {% endwith %}
 
             <form action="/cadastrar" method="POST" class="login-form">
 
                 <div class="input-group">
                     <label for="nome">Nome Completo</label>
-                    <input type="text" id="nome" name="nome" placeholder="Ex: Maria Silva" required>
+                    <input type="text" id="nome" name="nome" value="{{ nome if nome else '' }}" placeholder="Ex: Maria Silva" required>
                 </div>
 
                 <div class="input-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="exemplo@email.com" required>
+                    <input type="email" id="email" name="email" value="{{ email if email else '' }}" placeholder="exemplo@email.com" required>
                 </div>
 
                 <div class="input-group">
                     <label for="usuario">Nome de Usuário</label>
-                    <input type="text" id="usuario" name="usuario" placeholder="Ex: mariasilva" required>
+                    <input type="text" id="usuario" name="usuario" value="{{ usuario if usuario else '' }}" placeholder="Ex: mariasilva" required>
                 </div>
 
                 <div class="input-group">
@@ -72,5 +72,4 @@
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
-
 </html>
